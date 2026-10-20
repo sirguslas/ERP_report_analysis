@@ -52,6 +52,11 @@ Complete the following subsections using the information from @kappenman2021. Do
 
 Provide information on the number of participants and their demographics (sex, age, handedness) as well as the inclusion criteria for the study.
 
+```{python}
+exclude = ["001", "005", "016"]
+```
+
+
 ### Procedure
 
 Describe the task that participants completed. This should be tailored to the task / component that you chose to analyse.
@@ -101,7 +106,7 @@ REJECT = {
 ## Data analysis
 
 ### Preprocessing
-
+ 
 ```{python}
 #| eval: true # set this to false if you don't want preprocessing to recompute
 #| output: false # this suppresses any output
@@ -138,7 +143,9 @@ for cond in CONDITIONS:
     ss_avs[cond] = []
 
 for processed_file in PROCESSED_PATH.glob("*_raw.fif.gz"):
-    
+    subj_ID = processed_file.stem.split("_") [0]
+    if subj_ID in exclude:
+        continue
     # read in preprocessed file
     processed = SimpleRaw(processed_file)
 
