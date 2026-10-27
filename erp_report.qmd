@@ -185,7 +185,7 @@ Note: for some components, @kappenman2021 refer to two electrode sites. If this 
 
 ```{python}
 selected_electrode = "PO8"
-plot_title = "Grand average for N170: "
+plot_title = "Grand average for N170 responces"
 analysis_window_start = 1.1
 analysis_window_end = 1.5
 
