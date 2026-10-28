@@ -1,5 +1,5 @@
 ---
-title: "ERP analysis report (customise title to fit your topic)"
+title: "ERP analysis report: The N170 responce to faces and other stimuli"
 author: "Angus Adams"
 date: 30/10
 format: 
@@ -8,7 +8,7 @@ format:
         toc: true
         toc-depth: 3
         code-fold: true
-        theme: flatly # adapt this to a theme of your choice if you'd like
+        theme: sunset
 execute:
     warning: false
     message: false
@@ -18,39 +18,40 @@ bibliography: "erp_report.bib"
 ## Setup
 
 ```{python}
-# Specify the required imports for your analysis
+
 from pathlib import Path
 
 from mini_mne import SimpleRaw, SimpleEpoch, grand_average, plot_evokeds
 
-# Note how we can import a custom preprocessing function from a local script
+
 from scripts.preproc import preprocess
 
 ```
 
 ```{python}
-# Specify the required paths for your analysis
-# Note that we now include a folder for saving preprocessed data
+
 RAW_PATH = Path("data/raw")
 PROCESSED_PATH = Path("data/processed")
 ```
 
 ## Introduction
 
-Provide an introduction to the ERP component of your choice here. This should include a brief literature review -- see report instructions for details.
-Use appropriate subheadings as required: adapt the ones below, create new ones or delete as needed.
+The N170 is an event-related potential (ERP) component that helps explain how the brain responds to faces. It is a negative response, which is plotted upwards, and peaks at around 170 milliseconds (ms) after a stimulus is presented (@kappenman2021). The response is stimulus-locked, meaning it is measured relative to stimulus onset, and is usually examined within a -200–800 ms epoch window (@kappenman2021). The N170 is commonly measured at PO8, which is located over areas involved in visual processing and memory. Compared with non-face objects, faces are expected to produce a larger N170 response because they are meaningful visual stimuli that require specialised processing (@eimer2011). Processing of faces is thought to involve the inferior temporal cortex, especially the fusiform gyrus, which plays a role in recognising faces and remembering people we are familiar with (@eimer2011).
 
-### Intro subheading 1
+### History of the N170
+Bentin et al. first identified the N170 response in a study designed to define a facial recognition ERP (@bentin1996). The stimuli included non-target objects (e.g., butterflies), distorted objects (e.g., noses), inverted faces, and target objects (e.g., famous faces and random faces). The study showed a negative 172ms response in the posterior temporal scalp when participants viewed a target object, with the N170 response being strongest in the right hemisphere of the brain. The researchers also found that isolated eyes elicited a larger N170 than whole faces, suggesting that the component may be particularly sensitive to eye information. Bentin et al. proposed that the N170 may reflect a neural mechanism involved in detecting human faces and suggested it may relate to the face-selective N200 response recorded from the parietooccipital region (@bentin1996). 
 
-### Intro subheading 2
+### Controversies
+The N170 is controversial due to the neurological mechanisms underlying how the fusiform gyrus recognises faces. For instance, some studies of the N170 component have found the face inversion effect, in which more energy is put into encoding distorted and inverted faces in comparison to other items and regular faces (@kanwisher1998). Researchers also debate whether the difficulty in processing inverted faces stems from spatial reconstruction (@rossion2008) or post-processing encoding errors (@itier2002). The inverse face effect underscores how the fusiform gyrus is sensitive to facial features. A meta-analysis (@carretie2013) found that in contrast to earlier studies which found the N170 was insensitive to facial expression, the N170 is influenced by the expression of emotions. Specifically, anger, happiness and fear elicited the largest N170 response in comparison to neutral faces (@carretie2013).
+
+Another important area of N170 research is how face familiarity affects the response. Caheral found that familiar faces, including the participant’s own face and famous faces, produced larger N170 amplitudes than unfamiliar faces (@caheral2002). The study suggests that familiarity is closely associated with a strong N170 response. The N170 is also affected by repetition. When the same face is shown twice in quick succession, the N170 response is reduced (@jemel2005). Interestingly, different faces presented in succession produced similar amplitudes per face. In addition, Campatelli found that people or individuals living with autism spectrum disorders have underestimated facial recognition processing abilities and produce a similar N170 responses (@campatelli2013). Overall, these studies show that the N170 is affected not only by whether a stimulus is a face, but also by factors such as familiarity, repetition, and individual differences in face processing. The present study will use data from @kappenman2021 and will follow most of the same preprocessing procedures, except for the filtering steps.
 
 ## Methods
 
-Complete the following subsections using the information from @kappenman2021. Don't forget to mention that the data are from the ERP CORE resource under a Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0). 
-
+The present study will use data from @kappenman2021 and 
 ### Participants
 
-Provide information on the number of participants and their demographics (sex, age, handedness) as well as the inclusion criteria for the study.
+Data were collected from 40 healthy neurotypical, native English-speaking participants from the University of California, Davis Community. Participants were excluded if the trials exceeded 25% artifacts or achieved less than 75% accuracy on the tasks. The distribution included 25 female and 15 male participants (mean age = 21.5, SD = 2.87; range 18–30; 38 right-handed. After applying the preprocessing criteria, three participants were excluded because more than 25% of their trials were rejected due to artifacts, leaving fewer than 50% usable face trials. The final sample included 13 males and 24 females (mean age = 21.5, SD = 7.78; range 18-30, 35; right-handed).
 
 ```{python}
 exclude = ["001", "005", "016"]
@@ -58,17 +59,16 @@ exclude = ["001", "005", "016"]
 
 
 ### Procedure
+Participants completed face perception tasks in which a stimulus, such as a target (face) or a non-target (scrambled face, car, or scrambled car), was presented at the centre of the screen at intervals of 1600-1800ms. Participants were then asked to identify the target type (face or car) and its quality (scrambled or non-scrambled).EEG recording. 
 
-Describe the task that participants completed. This should be tailored to the task / component that you chose to analyse.
 
 ### EEG recording
 
-Describe the EEG recording parameters: amplifier and type of cap used, electrode positions, CMS / DRL electrode positions, EOG electrode positions, and filter parameters.
+The system used to record the electroencephalography (EEG) was a Biosemi ActiveTwo recording system. The cap had 30 electrodes systemised in the international 10/20 (FP1, F3, F7, FC3, C3, C5, P3, P7, P9, PO7, PO3, O1, Oz, Pz, CPz, FP2, Fz, F4, F8, FC4, FCz, Cz, C4, C6, P4, P8, P10, PO8, PO4, O2). All signals passed through a low-pass with a 0.1 cut-off and a high-pass filter with a 30 Hz cut-off. Vertical electrooculogram (VEOG) was recorded from below the right eye, while the horizontal electrooculogram (HEOG) was recorded on the lateral side of the eye. Referencing for the N170 was done via averaging all 30 electrodes, with the bipolar HEOG being computed through left HEOG minus right HEOG, while bipolar VEOG was computed through lower VEOG minus FP2 (@kappenman2021). 
 
 ### Analysis parameters
 
-Choose these parameters appropriate for the component that you are analysing. Use those recommended by @kappenman2021; see their Table 1. This holds for all parameters except for the filter parameters; for these, you can stick to the example parameters provided below.
-Describe the parameters in this section and also modify the code accordingly
+Analysis and processing were conducted in MATLAB using the EEGLAB and ERPLAB toolboxes. To increase processing speed, EEG and Electrooculography (EOG) were downsampled to 256Hz. EEG signals were recorded from 30 sites and then averaged. Large voltage artifacts in the trials that survived the data segmentation process were then excluded. The HEOG also allowed the removal of trials with excessive eye movements (e.g., blinks and horizontal movements). Horizontal and vertical eye movements may also affect event-locked stimulus responses, so we also carefully analysed and excluded these using the original data. Incorrect responses and excessively fast/slow trials were also excluded, leaving those with an acceptable response time of 200ms-1000ms. 
 
 #### Preprocessing parameters
 
@@ -79,8 +79,7 @@ FILTER_SETTINGS = {
     "high_cutoff": 30.0
 }
 
-# This setting re-references to averaged mastoids (P9/P10 as proxy) 
-# To use an average reference, replace ["P9", "P10"] with None 
+
 REFERENCE = None
 
 ```
@@ -88,12 +87,12 @@ REFERENCE = None
 #### Epoching parameters
 
 ```{python}
-TMIN = -0.2 # epoch start relative to critical event
-TMAX = 0.8 # epoch end relative to critical event
+TMIN = -0.2 
+TMAX = 0.8 
 
-BASELINE = (-0.2,0) # baseline interval
+BASELINE = (-0.2,0) 
 
-# critical conditions for averaging and epoching
+
 CONDITIONS = ["stimulus/face", "stimulus/car", "stimulus/scrambled_face", "stimulus/scrambled_car"]
 
 REJECT = {
@@ -108,19 +107,19 @@ REJECT = {
 ### Preprocessing
  
 ```{python}
-#| eval: true # set this to false if you don't want preprocessing to recompute
-#| output: false # this suppresses any output
+#| eval: false 
+#| output: false 
 
 for raw_file in RAW_PATH.glob("*_raw.fif.gz"):
 
-    # extract subject number
+    
     subj_ID = raw_file.stem.split("_")[0]
 
-    # read in raw file 
+    
     raw = SimpleRaw(raw_file)
 
-    # preprocess raw file
-    # note how we draw on a custom preprocessing function here
+    
+    
     processed = preprocess(raw, 
                             reref_params = REFERENCE, 
                             filter_low_cutoff = FILTER_SETTINGS["low_cutoff"], 
@@ -136,7 +135,7 @@ for raw_file in RAW_PATH.glob("*_raw.fif.gz"):
 ```{python}
 #| output: false
 
-# initialise empty dictionary to hold single-subject averages
+
 ss_avs = {}
 
 for cond in CONDITIONS:
@@ -146,16 +145,16 @@ for processed_file in PROCESSED_PATH.glob("*_raw.fif.gz"):
     subj_ID = processed_file.stem.split("_") [0]
     if subj_ID in exclude:
         continue
-    # read in preprocessed file
+    
     processed = SimpleRaw(processed_file)
 
-    # extract events
+    
     events, event_id = processed.get_events()
 
-    # epoch data
+    
     epochs = SimpleEpoch(processed, events, event_id, tmin = TMIN, tmax = TMAX, baseline = BASELINE, reject = REJECT)
 
-    # subset epochs and average by condition 
+    
     for cond in CONDITIONS:
         av = epochs[cond].average()
         ss_avs[cond].append(av)
@@ -167,7 +166,7 @@ for processed_file in PROCESSED_PATH.glob("*_raw.fif.gz"):
 ```{python}
 #| output: false
 
-# create an empty dict to hold our grand averages
+
 grand_avs = {}
 
 for cond in CONDITIONS:
@@ -177,11 +176,8 @@ for cond in CONDITIONS:
 
 ## Results
 
-### Grand average: expected effect
+### Grand average: N170
 
-Plot the electrode deemed most representative for the effect by @kappenman2021.
-Set the parameters for the specified analysis window, which will include dotted vertical lines marking the analysis window on the plot.
-Note: for some components, @kappenman2021 refer to two electrode sites. If this is the case for your chosen component, the analysis requires a consideration of lateralisation; please make an appointment to discuss the required analysis tweaks with Ina.
 
 ```{python}
 selected_electrode = "PO8"
@@ -196,12 +192,11 @@ plot_evokeds(grand_avs, picks = selected_electrode, invert_y = True, title = plo
 
 ## Discussion and reflection
 
-Provide a brief discussion of the effect that you observed. Were you able to replicate the ERP component as observed by @kappenman2021? If not, what was different in your grand average ERP? 
+The results suggest that intact faces produced the largest N170 response, while intact cars, scrambled faces, and scrambled cars produced smaller responses. The results broadly align with @kappenman2021, which found that faces produced a larger and earlier N170 response than cars. However, @kappenman2021 mainly focused on the comparison between intact faces and cars in their figures, even though scrambled face and car stimuli were also used in the experiment. The scrambled stimuli were expected to produce smaller N170 responses because they retained some visual features but lacked the meaningful configuration of an intact face or car. As @kappenman2021 used neutral faces, future research could test whether emotional facial expressions affect the N170 response. Future studies could also vary the degree of scrambling, or scramble only specific facial regions, to further determine which facial features are most important for producing the N170 response.
 
-What did you learn by applying the analysis process to a new dataset?
+Reflecting on the coding process has made me realise the importance of avoiding repetition and following the don’t repeat yourself (DRY) principle. At first, I copied and pasted lines of code because rewriting them seemed quicker, but copying and pasting often caused errors when I ran the cells in order. I also learned that a small mistake, such as not updating the referencing code, can affect the whole analysis and the results reported.In the future, I will aim to rewrite necessary code and attempt to follow the DRY principle by thoroughly examining cells one at a time rather than running the whole program. I will also need to practice with dummy sets of data to further improve my skills in coding, in turn improving my eye for noticing mistakes in codes. Overall, this process has taught me that coding is not only about getting the analysis to run, but also about making it clear, accurate, and easy to reproduce.
 
 ## References
 
-*Note: this document is set up to automatically generate a reference list via a bib file. We will look at how to do this in the week 9 workshop.*
 
-#no_gen_ai_was_used
+## no_gen_ai_was_used
