@@ -1,7 +1,7 @@
 ---
 title: "ERP analysis report: The N170 responce to faces and other stimuli"
 author: "Angus Adams"
-date: 30/10
+date: 28/10
 format: 
     html:
         embed-resources: true
@@ -49,6 +49,7 @@ Another important area of N170 research is how face familiarity affects the resp
 ## Methods
 
 The present study will use data from @kappenman2021 and the ERP CORE resource under a Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0). 
+
 ### Participants
 
 Data were collected from 40 healthy neurotypical, native English-speaking participants from the University of California, Davis Community. Participants were excluded if the trials exceeded 25% artifacts or achieved less than 75% accuracy on the tasks. The distribution included 25 female and 15 male participants (mean age = 21.5, SD = 2.87; range 18–30; 38 right-handed. After applying the preprocessing criteria, three participants were excluded because more than 25% of their trials were rejected due to artifacts, leaving fewer than 50% usable face trials. The final sample included 13 males and 24 females (mean age = 21.5, SD = 7.78; range 18-30, 35; right-handed).
