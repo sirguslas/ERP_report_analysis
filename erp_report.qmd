@@ -1,7 +1,7 @@
 ---
 title: "ERP analysis report: The N170 responce to faces and other stimuli"
 author: "Angus Adams"
-date: 28/10
+date: 28/10/2026
 format: 
     html:
         embed-resources: true
@@ -197,7 +197,8 @@ The results suggest that intact faces produced the largest N170 response, while 
 
 Reflecting on the coding process has made me realise the importance of avoiding repetition and following the don’t repeat yourself (DRY) principle. At first, I copied and pasted lines of code because rewriting them seemed quicker, but copying and pasting often caused errors when I ran the cells in order. I also learned that a small mistake, such as not updating the referencing code, can affect the whole analysis and the results reported.In the future, I will aim to rewrite necessary code and attempt to follow the DRY principle by thoroughly examining cells one at a time rather than running the whole program. I will also need to practice with dummy sets of data to further improve my skills in coding, in turn improving my eye for noticing mistakes in codes. Overall, this process has taught me that coding is not only about getting the analysis to run, but also about making it clear, accurate, and easy to reproduce.
 
+## no_gen_ai_was_used
+
 ## References
 
 
-## no_gen_ai_was_used
